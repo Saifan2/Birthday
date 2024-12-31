@@ -86,6 +86,14 @@
                 age--;
             }
 
+            // חישוב חודשים וימים מהיום הולדת האחרון
+            const lastBirthday = new Date(today.getFullYear(), birthdate.getMonth(), birthdate.getDate());
+            if (today < lastBirthday) {
+                lastBirthday.setFullYear(today.getFullYear() - 1);
+            }
+            const monthSinceBirthday = today.getMonth() - lastBirthday.getMonth() + (today.getFullYear() - lastBirthday.getFullYear()) * 12;
+            const daysSinceBirthday = Math.floor((today - lastBirthday) / (1000 * 60 * 60 * 24));
+
             // קבלת היום בשבוע
             const daysOfWeek = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
             const dayOfWeek = daysOfWeek[birthdate.getDay()];
@@ -108,6 +116,7 @@
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = `
                 <p>אתה בן <strong>${age}</strong> שנים.</p>
+                 <p>עברו <strong>${monthSinceBirthday}</strong> חודשים ו-<strong>${daysSinceBirthday}</strong> ימים מאז יום ההולדת האחרון שלך.</p>
                 <p>נולדת ביום <strong>${dayOfWeek}</strong>.</p>
                 <p>המזל האסטרולוגי שלך הוא <strong>${zodiac}</strong>.</p>
             `;
