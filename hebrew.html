@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מחשבון יום הולדת</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            direction: rtl;
+        }
+        .container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input[type="date"] {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            color: #333;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>מחשבון יום הולדת</h1>
+        <label for="birthdate">הזן את תאריך הלידה שלך:</label>
+        <input type="date" id="birthdate">
+        <button onclick="calculateDetails()">חשב</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateDetails() {
+            const birthdateInput = document.getElementById('birthdate').value;
+            if (!birthdateInput) {
+                alert('אנא בחר תאריך לידה.');
+                return;
+            }
+
+            const birthdate = new Date(birthdateInput);
+            const today = new Date();
+
+            // חישוב גיל
+            let age = today.getFullYear() - birthdate.getFullYear();
+            const monthDiff = today.getMonth() - birthdate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) {
+                age--;
+            }
+
+            // קבלת היום בשבוע
+            const daysOfWeek = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+            const dayOfWeek = daysOfWeek[birthdate.getDay()];
+
+            // קביעת מזל אסטרולוגי
+            const zodiacSigns = [
+                "גדי", "דלי", "דגים", "טלה", "שור", "תאומים",
+                "סרטן", "אריה", "בתולה", "מאזניים", "עקרב", "קשת"
+            ];
+            const zodiacDates = [
+                19, 18, 20, 19, 20, 20, 22, 22, 22, 22, 21, 21
+            ];
+
+            const month = birthdate.getMonth();
+            const day = birthdate.getDate();
+
+            const zodiac = day > zodiacDates[month] ? zodiacSigns[month + 1] || zodiacSigns[0] : zodiacSigns[month];
+
+            // הצגת תוצאות
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <p>אתה בן <strong>${age}</strong> שנים.</p>
+                <p>נולדת ביום <strong>${dayOfWeek}</strong>.</p>
+                <p>המזל האסטרולוגי שלך הוא <strong>${zodiac}</strong>.</p>
+            `;
+        }
+    </script>
+</body>
+</html>
