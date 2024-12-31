@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input[type="date"] {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            color: #333;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Birthday Calculator</h1>
+        <label for="birthdate">Enter your birthdate:</label>
+        <input type="date" id="birthdate">
+        <button onclick="calculateDetails()">Calculate</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateDetails() {
+            const birthdateInput = document.getElementById('birthdate').value;
+            if (!birthdateInput) {
+                alert('Please select a birthdate.');
+                return;
+            }
+
+            const birthdate = new Date(birthdateInput);
+            const today = new Date();
+
+            // Calculate age
+            let age = today.getFullYear() - birthdate.getFullYear();
+            const monthDiff = today.getMonth() - birthdate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) {
+                age--;
+            }
+
+            // Get day of the week
+            const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const dayOfWeek = daysOfWeek[birthdate.getDay()];
+
+            // Determine zodiac sign
+            const zodiacSigns = [
+                "Capricorn", "Aquarius", "Pisces", "Aries", "Taurus", "Gemini",
+                "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius"
+            ];
+            const zodiacDates = [
+                19, 18, 20, 19, 20, 20, 22, 22, 22, 22, 21, 21
+            ];
+
+            const month = birthdate.getMonth();
+            const day = birthdate.getDate();
+
+            const zodiac = day > zodiacDates[month] ? zodiacSigns[month + 1] || zodiacSigns[0] : zodiacSigns[month];
+
+            // Display results
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <p>You are <strong>${age}</strong> years old.</p>
+                <p>You were born on a <strong>${dayOfWeek}</strong>.</p>
+                <p>Your zodiac sign is <strong>${zodiac}</strong>.</p>
+            `;
+        }
+    </script>
+</body>
+</html>
